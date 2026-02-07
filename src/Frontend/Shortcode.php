@@ -44,11 +44,6 @@ class Shortcode {
 		);
 		$this->assets->enqueue_widget_assets( $config );
 
-		$layout = sanitize_text_field( (string) $atts['layout'] );
-		if ( ! in_array( $layout, array( 'grid', 'inline' ), true ) ) {
-			$layout = 'grid';
-		}
-
 		$context = array(
 			'form_id'      => wp_unique_id( 'lvdl-lh-' ),
 			'channel_code' => sanitize_text_field( (string) $atts['channel_code'] ),
@@ -57,7 +52,6 @@ class Shortcode {
 			'button_text'  => sanitize_text_field( (string) $atts['button_text'] ),
 			'currency'     => sanitize_text_field( (string) $atts['currency'] ),
 			'locale'       => sanitize_text_field( (string) $atts['locale'] ),
-			'layout'       => $layout,
 			'title'        => sanitize_text_field( (string) $atts['title'] ),
 			'text_color'   => $this->sanitize_color_value( (string) $atts['color'] ),
 		);

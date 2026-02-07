@@ -12,10 +12,11 @@
 	color: inherit;
 }
 
-.lvdl-lh-grid {
+.lvdl-lh-form-grid {
 	display: grid;
 	grid-template-columns: 1fr;
 	gap: 10px;
+	align-items: end;
 }
 
 .lvdl-lh-field {
@@ -49,7 +50,8 @@
 	line-height: 1.2;
 	font-weight: 600;
 	cursor: pointer;
-	align-self: end;
+	width: 100%;
+	min-height: 42px;
 }
 
 .lvdl-lh-button:disabled {
@@ -72,47 +74,14 @@
 	padding-left: 18px;
 }
 
-@media (min-width: 680px) {
-	.lvdl-lh-layout-grid .lvdl-lh-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	.lvdl-lh-layout-grid .lvdl-lh-grid-guests {
+@media (min-width: 768px) {
+	.lvdl-lh-form-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
 
-.lvdl-lh-layout-inline {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: end;
-	gap: 12px;
-}
-
-.lvdl-lh-layout-inline .lvdl-lh-title,
-.lvdl-lh-layout-inline .lvdl-lh-errors:not(:empty) {
-	flex-basis: 100%;
-}
-
-.lvdl-lh-layout-inline .lvdl-lh-grid {
-	display: contents;
-}
-
-.lvdl-lh-layout-inline .lvdl-lh-field {
-	flex: 1 1 150px;
-	min-width: 140px;
-}
-
-.lvdl-lh-layout-inline .lvdl-lh-button {
-	flex: 0 0 auto;
-	white-space: nowrap;
-	width: auto;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	align-self: end;
-}
-
-.lvdl-lh-layout-inline .lvdl-lh-errors:empty {
-	display: none;
+@media (min-width: 1024px) {
+	.lvdl-lh-form-grid {
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+	}
 }
