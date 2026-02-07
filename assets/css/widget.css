@@ -1,6 +1,8 @@
 .lvdl-lh-widget {
 	display: grid;
 	gap: 12px;
+	width: 100%;
+	min-width: 0;
 	max-width: 100%;
 	color: var(--lvdl-lh-text-color, inherit);
 }
@@ -14,6 +16,8 @@
 
 .lvdl-lh-form-grid {
 	display: grid;
+	width: 100%;
+	min-width: 0;
 	grid-template-columns: 1fr;
 	gap: 10px;
 	align-items: end;
@@ -22,6 +26,7 @@
 .lvdl-lh-field {
 	display: grid;
 	gap: 4px;
+	min-width: 0;
 }
 
 .lvdl-lh-field label {
@@ -65,18 +70,9 @@
 }
 
 .lvdl-lh-errors {
-	position: fixed;
-	right: 16px;
-	bottom: 16px;
-	z-index: 99999;
-	max-width: min(92vw, 420px);
-	padding: 12px 14px;
-	border: 1px solid #d9b4b1;
-	border-radius: 8px;
-	background: #fff;
+	margin-top: 2px;
 	color: #9b1c1c;
 	font-size: 0.9rem;
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .lvdl-lh-errors ul {
