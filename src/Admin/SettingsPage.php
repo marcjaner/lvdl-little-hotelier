@@ -69,9 +69,12 @@ class SettingsPage {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+
+		$update_status = isset( $_GET['lvdl_lh_update_status'] ) ? sanitize_text_field( wp_unslash( (string) $_GET['lvdl_lh_update_status'] ) ) : '';
 		?>
 		<div class="wrap">
 			<h1><?php echo esc_html__( 'LVDL Little Hotelier Settings', 'lvdl-little-hotelier' ); ?></h1>
+			<?php $this->render_update_notice( $update_status ); ?>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'lvdl_lh_settings_group' );
@@ -79,8 +82,64 @@ class SettingsPage {
 				submit_button();
 				?>
 			</form>
+
+			<hr />
+			<h2><?php esc_html_e( 'Plugin Updates', 'lvdl-little-hotelier' ); ?></h2>
+			<p><?php esc_html_e( 'Use these actions to manually check for and install updates from GitHub.', 'lvdl-little-hotelier' ); ?></p>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: plugin version */
+					esc_html__( 'Installed version: %s', 'lvdl-little-hotelier' ),
+					esc_html( LVDL_LH_VERSION )
+				);
+				?>
+			</p>
+
+			<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="lvdl_lh_check_updates" />
+					<?php wp_nonce_field( 'lvdl_lh_check_updates_action' ); ?>
+					<?php submit_button( __( 'Check for updates', 'lvdl-little-hotelier' ), 'secondary', 'submit', false ); ?>
+				</form>
+
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="lvdl_lh_update_now" />
+					<?php wp_nonce_field( 'lvdl_lh_update_now_action' ); ?>
+					<?php submit_button( __( 'Update now', 'lvdl-little-hotelier' ), 'primary', 'submit', false ); ?>
+				</form>
+			</div>
 		</div>
 		<?php
+	}
+
+	private function render_update_notice( string $status ): void {
+		if ( '' === $status ) {
+			return;
+		}
+
+		$notice_class = 'notice notice-info';
+		$message      = '';
+
+		if ( 'checked' === $status ) {
+			$notice_class = 'notice notice-success';
+			$message      = __( 'Update check completed.', 'lvdl-little-hotelier' );
+		} elseif ( 'no_update' === $status ) {
+			$notice_class = 'notice notice-info';
+			$message      = __( 'No updates are currently available.', 'lvdl-little-hotelier' );
+		} elseif ( 'updated' === $status ) {
+			$notice_class = 'notice notice-success';
+			$message      = __( 'Plugin updated successfully.', 'lvdl-little-hotelier' );
+		} elseif ( 'failed' === $status ) {
+			$notice_class = 'notice notice-error';
+			$message      = __( 'Plugin update failed. Please check filesystem permissions and try again.', 'lvdl-little-hotelier' );
+		}
+
+		if ( '' === $message ) {
+			return;
+		}
+
+		echo '<div class="' . esc_attr( $notice_class ) . '"><p>' . esc_html( $message ) . '</p></div>';
 	}
 
 	/**
