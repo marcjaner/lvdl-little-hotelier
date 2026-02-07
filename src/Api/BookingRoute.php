@@ -41,6 +41,16 @@ class BookingRoute {
 				),
 			)
 		);
+
+		register_rest_route(
+			'lvdl-lh/v1',
+			'/booking-nonce',
+			array(
+				'methods'             => \WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_nonce' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 	}
 
 	/**
@@ -118,5 +128,17 @@ class BookingRoute {
 				)
 			);
 		}
+	}
+
+	/**
+	 * @return \WP_REST_Response
+	 */
+	public function get_nonce(): \WP_REST_Response {
+		return new \WP_REST_Response(
+			array(
+				'nonce' => wp_create_nonce( 'lvdl_lh_booking_nonce' ),
+			),
+			200
+		);
 	}
 }

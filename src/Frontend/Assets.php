@@ -33,12 +33,13 @@ class Assets {
 			'lvdl-lh-widget',
 			'lvdlLhWidget',
 			array(
-				'restUrl' => esc_url_raw( rest_url( 'lvdl-lh/v1/booking-url' ) ),
-				'nonce'   => wp_create_nonce( 'lvdl_lh_booking_nonce' ),
-				'i18n'    => array(
+				'restUrl'  => esc_url_raw( rest_url( 'lvdl-lh/v1/booking-url' ) ),
+				'nonceUrl' => esc_url_raw( rest_url( 'lvdl-lh/v1/booking-nonce' ) ),
+				'nonce'    => wp_create_nonce( 'lvdl_lh_booking_nonce' ),
+				'i18n'     => array(
 					'genericError' => __( 'Something went wrong. Please try again.', 'lvdl-little-hotelier' ),
 				),
-				'config'  => $config,
+				'config'   => $config,
 			)
 		);
 	}

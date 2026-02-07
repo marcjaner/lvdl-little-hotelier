@@ -85,6 +85,35 @@
 		container.appendChild(ul);
 	}
 
+	async function requestFreshNonce() {
+		var response = await fetch(lvdlLhWidget.nonceUrl, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+		if (!response.ok) {
+			return null;
+		}
+		var data = await response.json();
+		if (!data || !data.nonce) {
+			return null;
+		}
+		return String(data.nonce);
+	}
+
+	async function requestBookingUrl(payload) {
+		var response = await fetch(lvdlLhWidget.restUrl, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		});
+		var data = await response.json();
+		return { response: response, data: data };
+	}
+
 	async function submitForm(form) {
 		var button = form.querySelector('button[type="submit"]');
 		var errorNode = form.querySelector('.lvdl-lh-errors');
@@ -103,14 +132,20 @@
 		}
 
 		try {
-			var response = await fetch(lvdlLhWidget.restUrl, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(payload)
-			});
-			var data = await response.json();
+			var result = await requestBookingUrl(payload);
+			var response = result.response;
+			var data = result.data;
+
+			if (!response.ok && data && data.code === 'lvdl_lh_invalid_nonce') {
+				var freshNonce = await requestFreshNonce();
+				if (freshNonce) {
+					lvdlLhWidget.nonce = freshNonce;
+					payload.nonce = freshNonce;
+					result = await requestBookingUrl(payload);
+					response = result.response;
+					data = result.data;
+				}
+			}
 
 			if (!response.ok) {
 				var serverErrors = [];
