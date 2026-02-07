@@ -79,7 +79,7 @@
 }
 
 .lvdl-lh-layout-inline .lvdl-lh-title,
-.lvdl-lh-layout-inline .lvdl-lh-errors {
+.lvdl-lh-layout-inline .lvdl-lh-errors:not(:empty) {
 	flex-basis: 100%;
 }
 
@@ -100,4 +100,8 @@
 	align-items: center;
 	justify-content: center;
 	align-self: end;
+}
+
+.lvdl-lh-layout-inline .lvdl-lh-errors:empty {
+	display: none;
 }
