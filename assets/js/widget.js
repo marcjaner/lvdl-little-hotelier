@@ -106,8 +106,7 @@
 			var response = await fetch(lvdlLhWidget.restUrl, {
 				method: 'POST',
 				headers: {
-					'Content-Type': 'application/json',
-					'X-WP-Nonce': lvdlLhWidget.nonce
+					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(payload)
 			});

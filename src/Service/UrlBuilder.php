@@ -24,6 +24,10 @@ class UrlBuilder {
 			$base_url_template = str_replace( '{channel_code}', rawurlencode( $request->channel_code() ), $base_url_template );
 		}
 
+		if ( ! str_contains( $base_url_template, '{channel_code}' ) ) {
+			$base_url_template = $this->append_channel_code_if_needed( $base_url_template, $request->channel_code() );
+		}
+
 		$base_url_template = esc_url_raw( $base_url_template );
 
 		if ( empty( $base_url_template ) ) {
@@ -65,5 +69,30 @@ class UrlBuilder {
 		$separator = ( false === strpos( $base_url_template, '?' ) ) ? '?' : '&';
 
 		return $base_url_template . $separator . $serialized;
+	}
+
+	private function append_channel_code_if_needed( string $base_url_template, string $channel_code ): string {
+		if ( '' === $channel_code ) {
+			return $base_url_template;
+		}
+
+		$path = (string) wp_parse_url( $base_url_template, PHP_URL_PATH );
+		if ( '' === $path ) {
+			return $base_url_template;
+		}
+
+		$has_property_slug = 1 === preg_match( '#/properties/[^/?]+/?$#', $path );
+		if ( $has_property_slug ) {
+			return $base_url_template;
+		}
+
+		$ends_with_properties = 1 === preg_match( '#/properties/?$#', $path );
+		if ( ! $ends_with_properties ) {
+			return $base_url_template;
+		}
+
+		$separator = str_ends_with( $base_url_template, '/' ) ? '' : '/';
+
+		return $base_url_template . $separator . rawurlencode( $channel_code );
 	}
 }
