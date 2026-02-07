@@ -31,6 +31,9 @@ class Shortcode {
 				'button_text'  => __( 'Check Availability', 'lvdl-little-hotelier' ),
 				'currency'     => (string) $settings['currency'],
 				'locale'       => (string) $settings['locale'],
+				'layout'       => 'grid',
+				'color'        => '',
+				'title'        => '',
 			),
 			$atts,
 			'lvdl_lh_datepicker'
@@ -41,6 +44,11 @@ class Shortcode {
 		);
 		$this->assets->enqueue_widget_assets( $config );
 
+		$layout = sanitize_text_field( (string) $atts['layout'] );
+		if ( ! in_array( $layout, array( 'grid', 'inline' ), true ) ) {
+			$layout = 'grid';
+		}
+
 		$context = array(
 			'form_id'      => wp_unique_id( 'lvdl-lh-' ),
 			'channel_code' => sanitize_text_field( (string) $atts['channel_code'] ),
@@ -49,6 +57,9 @@ class Shortcode {
 			'button_text'  => sanitize_text_field( (string) $atts['button_text'] ),
 			'currency'     => sanitize_text_field( (string) $atts['currency'] ),
 			'locale'       => sanitize_text_field( (string) $atts['locale'] ),
+			'layout'       => $layout,
+			'title'        => sanitize_text_field( (string) $atts['title'] ),
+			'text_color'   => $this->sanitize_color_value( (string) $atts['color'] ),
 		);
 
 		ob_start();
@@ -58,5 +69,30 @@ class Shortcode {
 
 	private function to_bool( string $value ): bool {
 		return in_array( strtolower( $value ), array( '1', 'true', 'yes', 'on' ), true );
+	}
+
+	private function sanitize_color_value( string $value ): string {
+		$value = trim( sanitize_text_field( $value ) );
+		if ( '' === $value ) {
+			return '';
+		}
+
+		if ( 1 === preg_match( '/^#[A-Fa-f0-9]{3,8}$/', $value ) ) {
+			return $value;
+		}
+
+		if ( 1 === preg_match( '/^(?:rgb|rgba|hsl|hsla)\([^()]+\)$/', $value ) ) {
+			return $value;
+		}
+
+		if ( 1 === preg_match( '/^var\(--[A-Za-z0-9\-_]+\)$/', $value ) ) {
+			return $value;
+		}
+
+		if ( 1 === preg_match( '/^[A-Za-z]+$/', $value ) ) {
+			return strtolower( $value );
+		}
+
+		return '';
 	}
 }

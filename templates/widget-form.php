@@ -6,8 +6,18 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$layout_class = 'inline' === $context['layout'] ? 'lvdl-lh-layout-inline' : 'lvdl-lh-layout-grid';
+$style_attr   = '';
+if ( ! empty( $context['text_color'] ) ) {
+	$style_attr = '--lvdl-lh-text-color:' . $context['text_color'] . ';';
+}
 ?>
-<form class="lvdl-lh-widget" novalidate>
+<form class="lvdl-lh-widget <?php echo esc_attr( $layout_class ); ?>"<?php echo '' !== $style_attr ? ' style="' . esc_attr( $style_attr ) . '"' : ''; ?> novalidate>
+	<?php if ( ! empty( $context['title'] ) ) : ?>
+		<h3 class="lvdl-lh-title"><?php echo esc_html( (string) $context['title'] ); ?></h3>
+	<?php endif; ?>
+
 	<div class="lvdl-lh-grid">
 		<div class="lvdl-lh-field">
 			<label for="<?php echo esc_attr( $context['form_id'] ); ?>-checkin"><?php esc_html_e( 'Check-in', 'lvdl-little-hotelier' ); ?></label>

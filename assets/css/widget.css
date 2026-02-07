@@ -1,11 +1,15 @@
 .lvdl-lh-widget {
 	display: grid;
 	gap: 12px;
-	padding: 16px;
-	border: 1px solid #d7dee6;
-	border-radius: 10px;
-	background: #ffffff;
-	max-width: 720px;
+	max-width: 100%;
+	color: var(--lvdl-lh-text-color, inherit);
+}
+
+.lvdl-lh-title {
+	margin: 0 0 4px;
+	font-size: 1.35rem;
+	line-height: 1.3;
+	color: inherit;
 }
 
 .lvdl-lh-grid {
@@ -22,7 +26,7 @@
 .lvdl-lh-field label {
 	font-size: 0.9rem;
 	font-weight: 600;
-	color: #273444;
+	color: inherit;
 }
 
 .lvdl-lh-field input,
@@ -36,13 +40,10 @@
 }
 
 .lvdl-lh-button {
-	background: #0f5f8f;
-	color: #fff;
-	border: 0;
-	border-radius: 8px;
-	padding: 12px 16px;
+	padding: 0.8em 1.2em;
 	font-weight: 600;
 	cursor: pointer;
+	align-self: end;
 }
 
 .lvdl-lh-button:disabled {
@@ -61,11 +62,37 @@
 }
 
 @media (min-width: 680px) {
-	.lvdl-lh-grid {
+	.lvdl-lh-layout-grid .lvdl-lh-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 
-	.lvdl-lh-grid-guests {
+	.lvdl-lh-layout-grid .lvdl-lh-grid-guests {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
+}
+
+.lvdl-lh-layout-inline {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	gap: 12px;
+}
+
+.lvdl-lh-layout-inline .lvdl-lh-title,
+.lvdl-lh-layout-inline .lvdl-lh-errors {
+	flex-basis: 100%;
+}
+
+.lvdl-lh-layout-inline .lvdl-lh-grid {
+	display: contents;
+}
+
+.lvdl-lh-layout-inline .lvdl-lh-field {
+	flex: 1 1 150px;
+	min-width: 140px;
+}
+
+.lvdl-lh-layout-inline .lvdl-lh-button {
+	flex: 0 0 auto;
+	white-space: nowrap;
 }
