@@ -39,11 +39,17 @@ if ( ! empty( $context['text_color'] ) ) {
 				<label for="<?php echo esc_attr( $context['form_id'] ); ?>-children"><?php esc_html_e( 'Children', 'lvdl-little-hotelier' ); ?></label>
 				<input id="<?php echo esc_attr( $context['form_id'] ); ?>-children" name="children" type="number" min="0" value="0" />
 			</div>
-			<div class="lvdl-lh-field">
-				<label for="<?php echo esc_attr( $context['form_id'] ); ?>-infants"><?php esc_html_e( 'Infants', 'lvdl-little-hotelier' ); ?></label>
-				<input id="<?php echo esc_attr( $context['form_id'] ); ?>-infants" name="infants" type="number" min="0" value="0" />
-			</div>
+
+			<?php if ( 'inline' !== $context['layout'] ) : ?>
+				<div class="lvdl-lh-field">
+					<label for="<?php echo esc_attr( $context['form_id'] ); ?>-infants"><?php esc_html_e( 'Infants', 'lvdl-little-hotelier' ); ?></label>
+					<input id="<?php echo esc_attr( $context['form_id'] ); ?>-infants" name="infants" type="number" min="0" value="0" />
+				</div>
+			<?php endif; ?>
 		</div>
+		<?php if ( 'inline' === $context['layout'] ) : ?>
+			<input name="infants" type="hidden" value="0" />
+		<?php endif; ?>
 	<?php else : ?>
 		<input name="adults" type="hidden" value="2" />
 		<input name="children" type="hidden" value="0" />

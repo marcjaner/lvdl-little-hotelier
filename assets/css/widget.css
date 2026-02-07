@@ -95,4 +95,9 @@
 .lvdl-lh-layout-inline .lvdl-lh-button {
 	flex: 0 0 auto;
 	white-space: nowrap;
+	width: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	align-self: end;
 }
