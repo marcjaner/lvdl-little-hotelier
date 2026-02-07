@@ -69,6 +69,12 @@
 	border-color: #9aa7b6;
 }
 
+.lvdl-lh-widget.lvdl-lh-has-color .lvdl-lh-button:hover:not(:disabled),
+.lvdl-lh-widget.lvdl-lh-has-color .lvdl-lh-button:focus-visible {
+	background: var(--lvdl-lh-text-color, transparent);
+	color: var(--lvdl-lh-surface-color, var(--contrast, #1f2430));
+}
+
 .lvdl-lh-errors {
 	margin-top: 2px;
 	color: #9b1c1c;

@@ -28,7 +28,7 @@ class Shortcode {
 				'channel_code' => (string) $settings['channel_code'],
 				'show_guests'  => 'true',
 				'show_promo'   => 'false',
-				'button_text'  => __( 'Check Availability', 'lvdl-little-hotelier' ),
+				'button_text'  => __( 'Check availability', 'lvdl-little-hotelier' ),
 				'currency'     => (string) $settings['currency'],
 				'locale'       => (string) $settings['locale'],
 				'layout'       => 'grid',

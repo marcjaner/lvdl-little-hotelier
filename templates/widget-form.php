@@ -8,11 +8,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $style_attr   = '';
+$form_classes = 'lvdl-lh-widget';
 if ( ! empty( $context['text_color'] ) ) {
 	$style_attr = '--lvdl-lh-text-color:' . $context['text_color'] . ';';
+	$form_classes .= ' lvdl-lh-has-color';
 }
 ?>
-<form class="lvdl-lh-widget"<?php echo '' !== $style_attr ? ' style="' . esc_attr( $style_attr ) . '"' : ''; ?> novalidate>
+<form class="<?php echo esc_attr( $form_classes ); ?>"<?php echo '' !== $style_attr ? ' style="' . esc_attr( $style_attr ) . '"' : ''; ?> novalidate>
 	<?php if ( ! empty( $context['title'] ) ) : ?>
 		<h3 class="lvdl-lh-title"><?php echo esc_html( (string) $context['title'] ); ?></h3>
 	<?php endif; ?>
