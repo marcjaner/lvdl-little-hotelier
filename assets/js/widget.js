@@ -1,6 +1,72 @@
 (function () {
 	'use strict';
 
+	function parseColorToRgb(value) {
+		if (!value) {
+			return null;
+		}
+
+		var hex = value.trim().match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+		if (hex) {
+			var raw = hex[1];
+			if (raw.length === 3) {
+				raw = raw[0] + raw[0] + raw[1] + raw[1] + raw[2] + raw[2];
+			}
+			return {
+				r: parseInt(raw.slice(0, 2), 16),
+				g: parseInt(raw.slice(2, 4), 16),
+				b: parseInt(raw.slice(4, 6), 16)
+			};
+		}
+
+		var rgb = value.trim().match(/^rgba?\(([^)]+)\)$/i);
+		if (!rgb) {
+			return null;
+		}
+
+		var parts = rgb[1].split(',').map(function (p) {
+			return p.trim();
+		});
+		if (parts.length < 3) {
+			return null;
+		}
+
+		return {
+			r: Math.max(0, Math.min(255, parseInt(parts[0], 10))),
+			g: Math.max(0, Math.min(255, parseInt(parts[1], 10))),
+			b: Math.max(0, Math.min(255, parseInt(parts[2], 10)))
+		};
+	}
+
+	function relativeLuminance(rgb) {
+		function channel(v) {
+			var c = v / 255;
+			return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+		}
+		return (0.2126 * channel(rgb.r)) + (0.7152 * channel(rgb.g)) + (0.0722 * channel(rgb.b));
+	}
+
+	function applyHoverContrast() {
+		var forms = document.querySelectorAll('.lvdl-lh-widget.lvdl-lh-has-color');
+		forms.forEach(function (form) {
+			var styles = window.getComputedStyle(form);
+			var resolved = styles.getPropertyValue('--lvdl-lh-text-color').trim();
+			var rgb = parseColorToRgb(resolved);
+			if (!rgb) {
+				form.style.setProperty('--lvdl-lh-hover-text-color', 'var(--base-2, #f5f5fc)');
+				return;
+			}
+
+			var luminance = relativeLuminance(rgb);
+			if (luminance > 0.5) {
+				form.style.setProperty('--lvdl-lh-hover-text-color', 'var(--contrast-3, #393c5d)');
+				return;
+			}
+
+			form.style.setProperty('--lvdl-lh-hover-text-color', 'var(--base-2, #f5f5fc)');
+		});
+	}
+
 	function parseDate(value) {
 		if (!value) {
 			return null;
@@ -188,4 +254,6 @@
 		event.preventDefault();
 		submitForm(form);
 	});
+
+	applyHoverContrast();
 })();

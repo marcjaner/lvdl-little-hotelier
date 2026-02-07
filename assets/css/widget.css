@@ -72,7 +72,7 @@
 .lvdl-lh-widget.lvdl-lh-has-color .lvdl-lh-button:hover:not(:disabled),
 .lvdl-lh-widget.lvdl-lh-has-color .lvdl-lh-button:focus-visible {
 	background: var(--lvdl-lh-text-color, transparent);
-	color: var(--lvdl-lh-surface-color, var(--contrast, #1f2430));
+	color: var(--lvdl-lh-hover-text-color, var(--base-2, #f5f5fc));
 }
 
 .lvdl-lh-errors {
