@@ -21,3 +21,11 @@
 # OS temp
 *.swp
 *.swo
+
+# Local agent metadata
+/.agents/
+/.claude/
+
+# Local agent metadata
+/.agents/
+/.claude/
