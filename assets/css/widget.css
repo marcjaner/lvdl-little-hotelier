@@ -65,13 +65,27 @@
 }
 
 .lvdl-lh-errors {
+	position: fixed;
+	right: 16px;
+	bottom: 16px;
+	z-index: 99999;
+	max-width: min(92vw, 420px);
+	padding: 12px 14px;
+	border: 1px solid #d9b4b1;
+	border-radius: 8px;
+	background: #fff;
 	color: #9b1c1c;
 	font-size: 0.9rem;
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .lvdl-lh-errors ul {
 	margin: 0;
 	padding-left: 18px;
+}
+
+.lvdl-lh-errors:empty {
+	display: none;
 }
 
 @media (min-width: 768px) {

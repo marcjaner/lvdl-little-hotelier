@@ -72,9 +72,17 @@
 		if (!container) {
 			return;
 		}
+
+		var form = container.closest('form');
 		container.innerHTML = '';
 		if (!errors.length) {
+			if (form) {
+				form.classList.remove('lvdl-lh-has-errors');
+			}
 			return;
+		}
+		if (form) {
+			form.classList.add('lvdl-lh-has-errors');
 		}
 		var ul = document.createElement('ul');
 		errors.forEach(function (error) {
