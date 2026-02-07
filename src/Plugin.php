@@ -5,6 +5,7 @@ namespace Lvdl\LittleHotelier;
 use Lvdl\LittleHotelier\Admin\SettingsPage;
 use Lvdl\LittleHotelier\Api\BookingRoute;
 use Lvdl\LittleHotelier\Frontend\Shortcode;
+use Lvdl\LittleHotelier\Infrastructure\GitHubUpdater;
 use Lvdl\LittleHotelier\Service\SettingsRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,6 +35,7 @@ class Plugin {
 		new SettingsPage( $settings_repo );
 		new Shortcode( $settings_repo );
 		new BookingRoute( $settings_repo );
+		( new GitHubUpdater() )->init();
 	}
 
 	public function activate(): void {

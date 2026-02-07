@@ -2,18 +2,19 @@
 /**
  * Plugin Name: LVDL Little Hotelier
  * Description: Date picker and guest picker that redirects to Little Hotelier with prefilled booking parameters.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Requires at least: 6.7
  * Requires PHP: 8.0
  * Author: LVDL
  * Text Domain: lvdl-little-hotelier
+ * Update URI: https://github.com/marcjaner/lvdl-little-hotelier
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'LVDL_LH_VERSION', '1.0.1' );
+define( 'LVDL_LH_VERSION', '1.0.2' );
 define( 'LVDL_LH_PLUGIN_FILE', __FILE__ );
 define( 'LVDL_LH_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LVDL_LH_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
