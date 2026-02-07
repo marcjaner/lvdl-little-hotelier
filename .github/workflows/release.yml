@@ -1,0 +1,67 @@
+name: Build and Release Plugin
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read plugin version from header
+        id: version
+        run: |
+          VERSION=$(grep -E "^ \* Version:" -m1 lvdl-little-hotelier.php | sed 's/^ \* Version:[[:space:]]*//')
+          if [ -z "$VERSION" ]; then
+            echo "Could not determine plugin version from lvdl-little-hotelier.php"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Check if release tag already exists
+        id: tag_exists
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1 || git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Tag $TAG already exists. Skipping release."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build plugin zip
+        if: steps.tag_exists.outputs.exists == 'false'
+        run: |
+          mkdir -p dist/lvdl-little-hotelier
+          rsync -av ./ dist/lvdl-little-hotelier/ \
+            --exclude '.git/' \
+            --exclude '.github/' \
+            --exclude 'dist/' \
+            --exclude '.DS_Store' \
+            --exclude 'node_modules/'
+          cd dist
+          zip -r "lvdl-little-hotelier-v${{ steps.version.outputs.version }}.zip" lvdl-little-hotelier
+
+      - name: Create tag
+        if: steps.tag_exists.outputs.exists == 'false'
+        run: |
+          TAG="v${{ steps.version.outputs.version }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+
+      - name: Publish GitHub release
+        if: steps.tag_exists.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
+          files: dist/lvdl-little-hotelier-v${{ steps.version.outputs.version }}.zip

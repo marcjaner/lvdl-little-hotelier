@@ -1,0 +1,71 @@
+.lvdl-lh-widget {
+	display: grid;
+	gap: 12px;
+	padding: 16px;
+	border: 1px solid #d7dee6;
+	border-radius: 10px;
+	background: #ffffff;
+	max-width: 720px;
+}
+
+.lvdl-lh-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 10px;
+}
+
+.lvdl-lh-field {
+	display: grid;
+	gap: 4px;
+}
+
+.lvdl-lh-field label {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #273444;
+}
+
+.lvdl-lh-field input,
+.lvdl-lh-field select {
+	width: 100%;
+	padding: 10px 12px;
+	border: 1px solid #b8c2cc;
+	border-radius: 8px;
+	font-size: 1rem;
+	line-height: 1.2;
+}
+
+.lvdl-lh-button {
+	background: #0f5f8f;
+	color: #fff;
+	border: 0;
+	border-radius: 8px;
+	padding: 12px 16px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.lvdl-lh-button:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.lvdl-lh-errors {
+	color: #9b1c1c;
+	font-size: 0.9rem;
+}
+
+.lvdl-lh-errors ul {
+	margin: 0;
+	padding-left: 18px;
+}
+
+@media (min-width: 680px) {
+	.lvdl-lh-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.lvdl-lh-grid-guests {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

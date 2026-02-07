@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Composer
+/vendor/
+/composer.lock
+
+# Node (if ever used)
+/node_modules/
+
+# Build output
+/dist/
+
+# Logs
+*.log
+
+# OS temp
+*.swp
+*.swo

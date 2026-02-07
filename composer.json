@@ -1,0 +1,13 @@
+{
+  "name": "lvdl/little-hotelier",
+  "description": "WordPress Little Hotelier booking redirect plugin",
+  "type": "wordpress-plugin",
+  "autoload": {
+    "psr-4": {
+      "Lvdl\\LittleHotelier\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.0"
+  }
+}
