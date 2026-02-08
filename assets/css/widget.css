@@ -12,6 +12,7 @@
 	font-size: 1.35rem;
 	line-height: 1.3;
 	color: inherit;
+	text-align: center;
 }
 
 .lvdl-lh-form-grid {
@@ -38,11 +39,23 @@
 .lvdl-lh-field input,
 .lvdl-lh-field select {
 	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
 	padding: 10px 12px;
 	border: 1px solid #b8c2cc;
 	border-radius: 8px;
 	font-size: 1rem;
 	line-height: 1.2;
+}
+
+.lvdl-lh-field input[type="date"] {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	min-width: 0;
+	appearance: auto;
+	-webkit-appearance: auto;
 }
 
 .lvdl-lh-button {
@@ -91,6 +104,10 @@
 }
 
 @media (min-width: 768px) {
+	.lvdl-lh-title {
+		text-align: left;
+	}
+
 	.lvdl-lh-form-grid {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
