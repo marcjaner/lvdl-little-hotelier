@@ -87,31 +87,56 @@
 		return Math.round((end.getTime() - start.getTime()) / msPerDay);
 	}
 
-	function validate(payload, maxStayDays) {
+	function getFormI18n(form) {
+		var defaults = {
+			checkInInvalid: 'Check-in date is required and must be valid.',
+			checkOutInvalid: 'Check-out date is required and must be valid.',
+			checkOutAfter: 'Check-out must be after check-in.',
+			stayMax: 'Stay cannot exceed {days} days.',
+			adultsMin: 'At least 1 adult is required.',
+			guestsNegative: 'Guest counts cannot be negative.',
+			genericError: 'Something went wrong. Please try again.'
+		};
+		if (!form) {
+			return defaults;
+		}
+
+		return {
+			checkInInvalid: String(form.dataset.i18nCheckInInvalid || defaults.checkInInvalid),
+			checkOutInvalid: String(form.dataset.i18nCheckOutInvalid || defaults.checkOutInvalid),
+			checkOutAfter: String(form.dataset.i18nCheckOutAfter || defaults.checkOutAfter),
+			stayMax: String(form.dataset.i18nStayMax || defaults.stayMax),
+			adultsMin: String(form.dataset.i18nAdultsMin || defaults.adultsMin),
+			guestsNegative: String(form.dataset.i18nGuestsNegative || defaults.guestsNegative),
+			genericError: String(form.dataset.i18nGenericError || defaults.genericError)
+		};
+	}
+
+	function validate(payload, maxStayDays, i18n) {
 		var errors = [];
 		var checkIn = parseDate(payload.checkInDate);
 		var checkOut = parseDate(payload.checkOutDate);
 
 		if (!checkIn) {
-			errors.push('Check-in date is required and must be valid.');
+			errors.push(i18n.checkInInvalid);
 		}
 		if (!checkOut) {
-			errors.push('Check-out date is required and must be valid.');
+			errors.push(i18n.checkOutInvalid);
 		}
 		if (checkIn && checkOut) {
 			var nights = diffDays(checkIn, checkOut);
 			if (nights <= 0) {
-				errors.push('Check-out must be after check-in.');
+				errors.push(i18n.checkOutAfter);
 			}
 			if (nights > maxStayDays) {
-				errors.push('Stay cannot exceed ' + maxStayDays + ' days.');
+				errors.push(i18n.stayMax.replace('{days}', String(maxStayDays)));
 			}
 		}
 		if (payload.adults < 1) {
-			errors.push('At least 1 adult is required.');
+			errors.push(i18n.adultsMin);
 		}
 		if (payload.children < 0 || payload.infants < 0) {
-			errors.push('Guest counts cannot be negative.');
+			errors.push(i18n.guestsNegative);
 		}
 
 		return errors;
@@ -185,8 +210,9 @@
 		var errorNode = form.querySelector('.lvdl-lh-errors');
 		var payload = serializeForm(form);
 		var maxStayDays = Number(lvdlLhWidget.config && lvdlLhWidget.config.maxStayDays ? lvdlLhWidget.config.maxStayDays : 28);
+		var i18n = getFormI18n(form);
 
-		var clientErrors = validate(payload, maxStayDays);
+		var clientErrors = validate(payload, maxStayDays, i18n);
 		if (clientErrors.length) {
 			renderErrors(errorNode, clientErrors);
 			return;
@@ -221,7 +247,7 @@
 					});
 				}
 				if (!serverErrors.length) {
-					serverErrors.push((data && data.message) || lvdlLhWidget.i18n.genericError);
+					serverErrors.push((data && data.message) || i18n.genericError);
 				}
 				renderErrors(errorNode, serverErrors);
 				return;
@@ -232,9 +258,9 @@
 				return;
 			}
 
-			renderErrors(errorNode, [lvdlLhWidget.i18n.genericError]);
+			renderErrors(errorNode, [i18n.genericError]);
 		} catch (e) {
-			renderErrors(errorNode, [lvdlLhWidget.i18n.genericError]);
+			renderErrors(errorNode, [i18n.genericError]);
 		} finally {
 			if (button) {
 				button.disabled = false;
