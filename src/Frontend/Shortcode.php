@@ -182,6 +182,11 @@ class Shortcode {
 			return $normalized_locale;
 		}
 
+		$detected_language = $this->detect_language_from_request_uri();
+		if ( '' !== $detected_language ) {
+			return $detected_language;
+		}
+
 		return 'en';
 	}
 
@@ -208,5 +213,23 @@ class Shortcode {
 		}
 
 		return self::TRANSLATIONS['en'];
+	}
+
+	private function detect_language_from_request_uri(): string {
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? (string) wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
+		if ( '' === $request_uri ) {
+			return '';
+		}
+
+		$path = (string) wp_parse_url( $request_uri, PHP_URL_PATH );
+		if ( '' === $path ) {
+			return '';
+		}
+
+		if ( 1 !== preg_match( '#(?:^|/)(es|de|fr)(?:/|$)#i', $path, $matches ) ) {
+			return '';
+		}
+
+		return strtolower( $matches[1] );
 	}
 }
