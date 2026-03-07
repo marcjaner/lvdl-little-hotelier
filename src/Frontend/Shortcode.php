@@ -39,7 +39,7 @@ class Shortcode {
 			'adults_label'          => 'Adultos',
 			'children_label'        => 'Niños',
 			'promo_label'           => 'Código promocional',
-			'button_text'           => 'Comprobar disponibilidad',
+			'button_text'           => 'Ver disponibilidad',
 			'error_checkin_invalid' => 'La fecha de entrada es obligatoria y debe ser válida.',
 			'error_checkout_invalid' => 'La fecha de salida es obligatoria y debe ser válida.',
 			'error_checkout_after'  => 'La salida debe ser posterior a la entrada.',
