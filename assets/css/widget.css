@@ -90,7 +90,7 @@
 
 .lvdl-lh-errors {
 	margin-top: 2px;
-	color: #9b1c1c;
+	color: inherit;
 	font-size: 0.9rem;
 }
 
