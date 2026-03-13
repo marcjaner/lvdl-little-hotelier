@@ -21,6 +21,7 @@ class Shortcode {
 		'en' => array(
 			'check_in_label'        => 'Check-in',
 			'check_out_label'       => 'Check-out',
+			'select_date_label'     => 'Select date',
 			'adults_label'          => 'Adults',
 			'children_label'        => 'Children',
 			'promo_label'           => 'Promo code',
@@ -36,6 +37,7 @@ class Shortcode {
 		'es' => array(
 			'check_in_label'        => 'Entrada',
 			'check_out_label'       => 'Salida',
+			'select_date_label'     => 'Seleccionar fecha',
 			'adults_label'          => 'Adultos',
 			'children_label'        => 'Niños',
 			'promo_label'           => 'Código promocional',
@@ -51,6 +53,7 @@ class Shortcode {
 		'de' => array(
 			'check_in_label'        => 'Anreise',
 			'check_out_label'       => 'Abreise',
+			'select_date_label'     => 'Datum auswählen',
 			'adults_label'          => 'Erwachsene',
 			'children_label'        => 'Kinder',
 			'promo_label'           => 'Aktionscode',
@@ -66,6 +69,7 @@ class Shortcode {
 		'fr' => array(
 			'check_in_label'        => 'Arrivée',
 			'check_out_label'       => 'Départ',
+			'select_date_label'     => 'Sélectionner une date',
 			'adults_label'          => 'Adultes',
 			'children_label'        => 'Enfants',
 			'promo_label'           => 'Code promo',

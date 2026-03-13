@@ -87,6 +87,74 @@
 		return Math.round((end.getTime() - start.getTime()) / msPerDay);
 	}
 
+	function parseIsoDateToLocal(value) {
+		if (!value) {
+			return null;
+		}
+
+		var parts = value.split('-');
+		if (parts.length !== 3) {
+			return null;
+		}
+
+		var year = parseInt(parts[0], 10);
+		var month = parseInt(parts[1], 10) - 1;
+		var day = parseInt(parts[2], 10);
+		var date = new Date(year, month, day);
+		if (Number.isNaN(date.getTime())) {
+			return null;
+		}
+
+		return date;
+	}
+
+	function formatDisplayDate(value, locale, placeholder) {
+		var date = parseIsoDateToLocal(value);
+		if (!date) {
+			return placeholder;
+		}
+
+		try {
+			return new Intl.DateTimeFormat(locale || 'en', {
+				day: 'numeric',
+				month: 'short',
+				year: 'numeric'
+			}).format(date);
+		} catch (e) {
+			return new Intl.DateTimeFormat('en', {
+				day: 'numeric',
+				month: 'short',
+				year: 'numeric'
+			}).format(date);
+		}
+	}
+
+	function syncDateDisplay(input) {
+		if (!(input instanceof HTMLInputElement)) {
+			return;
+		}
+
+		var wrapper = input.closest('.lvdl-lh-date-input-wrap');
+		if (!wrapper) {
+			return;
+		}
+
+		var valueNode = wrapper.querySelector('[data-date-display-value]');
+		if (!valueNode) {
+			return;
+		}
+
+		var placeholder = String(input.dataset.displayPlaceholder || 'Select date');
+		var locale = String(input.dataset.displayLocale || 'en');
+		valueNode.textContent = formatDisplayDate(input.value, locale, placeholder);
+	}
+
+	function syncAllDateDisplays() {
+		document.querySelectorAll('.lvdl-lh-date-input[data-date-input]').forEach(function (input) {
+			syncDateDisplay(input);
+		});
+	}
+
 	function getFormI18n(form) {
 		var defaults = {
 			checkInInvalid: 'Check-in date is required and must be valid.',
@@ -281,5 +349,30 @@
 		submitForm(form);
 	});
 
+	document.addEventListener('input', function (event) {
+		var target = event.target;
+		if (!(target instanceof HTMLInputElement)) {
+			return;
+		}
+		if (!target.matches('.lvdl-lh-date-input[data-date-input]')) {
+			return;
+		}
+
+		syncDateDisplay(target);
+	});
+
+	document.addEventListener('change', function (event) {
+		var target = event.target;
+		if (!(target instanceof HTMLInputElement)) {
+			return;
+		}
+		if (!target.matches('.lvdl-lh-date-input[data-date-input]')) {
+			return;
+		}
+
+		syncDateDisplay(target);
+	});
+
 	applyHoverContrast();
+	syncAllDateDisplays();
 })();

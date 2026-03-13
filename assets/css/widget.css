@@ -36,6 +36,12 @@
 	color: inherit;
 }
 
+.lvdl-lh-date-input-wrap {
+	position: relative;
+	width: 100%;
+	min-width: 0;
+}
+
 .lvdl-lh-field input,
 .lvdl-lh-field select {
 	width: 100%;
@@ -49,13 +55,53 @@
 	line-height: 1.2;
 }
 
-.lvdl-lh-field input[type="date"] {
-	display: block;
+.lvdl-lh-date-input {
 	width: 100%;
 	max-width: 100%;
 	min-width: 0;
 	appearance: auto;
 	-webkit-appearance: auto;
+}
+
+.lvdl-lh-date-display {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	min-height: 42px;
+	box-sizing: border-box;
+	padding: 10px 12px;
+	border: 1px solid #b8c2cc;
+	border-radius: 8px;
+	font-size: 1rem;
+	line-height: 1.2;
+	background: #fff;
+	color: inherit;
+}
+
+.lvdl-lh-date-display-value {
+	display: block;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.lvdl-lh-date-input-wrap:focus-within .lvdl-lh-date-display {
+	border-color: #9aa7b6;
+}
+
+@media (max-width: 767px) {
+	.lvdl-lh-date-input-wrap {
+		min-height: 42px;
+	}
+
+	.lvdl-lh-date-input-wrap .lvdl-lh-date-input {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		z-index: 2;
+		cursor: pointer;
+	}
 }
 
 .lvdl-lh-button {
@@ -106,6 +152,10 @@
 @media (min-width: 768px) {
 	.lvdl-lh-title {
 		text-align: left;
+	}
+
+	.lvdl-lh-date-display {
+		display: none;
 	}
 
 	.lvdl-lh-form-grid {

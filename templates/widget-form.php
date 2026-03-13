@@ -32,13 +32,41 @@ if ( ! empty( $context['text_color'] ) ) {
 	<?php endif; ?>
 
 	<div class="lvdl-lh-form-grid">
-		<div class="lvdl-lh-field">
+		<div class="lvdl-lh-field lvdl-lh-date-field">
 			<label for="<?php echo esc_attr( $context['form_id'] ); ?>-checkin"><?php echo esc_html( (string) ( $i18n['check_in_label'] ?? 'Check-in' ) ); ?></label>
-			<input id="<?php echo esc_attr( $context['form_id'] ); ?>-checkin" name="checkInDate" type="date" required />
+			<div class="lvdl-lh-date-input-wrap">
+				<input
+					id="<?php echo esc_attr( $context['form_id'] ); ?>-checkin"
+					class="lvdl-lh-date-input"
+					name="checkInDate"
+					type="date"
+					data-date-input
+					data-display-locale="<?php echo esc_attr( (string) $context['locale'] ); ?>"
+					data-display-placeholder="<?php echo esc_attr( (string) ( $i18n['select_date_label'] ?? 'Select date' ) ); ?>"
+					required
+				/>
+				<span class="lvdl-lh-date-display" aria-hidden="true">
+					<span class="lvdl-lh-date-display-value" data-date-display-value><?php echo esc_html( (string) ( $i18n['select_date_label'] ?? 'Select date' ) ); ?></span>
+				</span>
+			</div>
 		</div>
-		<div class="lvdl-lh-field">
+		<div class="lvdl-lh-field lvdl-lh-date-field">
 			<label for="<?php echo esc_attr( $context['form_id'] ); ?>-checkout"><?php echo esc_html( (string) ( $i18n['check_out_label'] ?? 'Check-out' ) ); ?></label>
-			<input id="<?php echo esc_attr( $context['form_id'] ); ?>-checkout" name="checkOutDate" type="date" required />
+			<div class="lvdl-lh-date-input-wrap">
+				<input
+					id="<?php echo esc_attr( $context['form_id'] ); ?>-checkout"
+					class="lvdl-lh-date-input"
+					name="checkOutDate"
+					type="date"
+					data-date-input
+					data-display-locale="<?php echo esc_attr( (string) $context['locale'] ); ?>"
+					data-display-placeholder="<?php echo esc_attr( (string) ( $i18n['select_date_label'] ?? 'Select date' ) ); ?>"
+					required
+				/>
+				<span class="lvdl-lh-date-display" aria-hidden="true">
+					<span class="lvdl-lh-date-display-value" data-date-display-value><?php echo esc_html( (string) ( $i18n['select_date_label'] ?? 'Select date' ) ); ?></span>
+				</span>
+			</div>
 		</div>
 		<?php if ( ! empty( $context['show_guests'] ) ) : ?>
 			<div class="lvdl-lh-field">
